@@ -1,0 +1,10 @@
+# Local test footage and rendered reels — keep running tests here, do not commit.
+videos/
+
+# Build leftovers if a run is pointed at the repo root
+.reel_build/
+.*_build/
+reels_out/
+__pycache__/
+*.pyc
+*.pyo
