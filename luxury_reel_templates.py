@@ -121,6 +121,54 @@ TEMPLATES = {
         ("colorbalance=rs=.09:gs=.03:bs=.02:rh=.11:bm=.05:rm=.04", "eq=brightness=-.065:contrast=1.14:saturation=.58:gamma=.97"),
         "smoke", 11, .96,
     ),
+    "silk_assassin": Template(
+        "silk_assassin", "Silk Assassin", "Soft hands. Hard ending.",
+        .40, .96, .32, ("dissolve", "fadeblack", "smoothleft", "circleclose", "hblur"),
+        ("colorbalance=rs=.08:gs=.045:bs=-.04:rh=.12:gh=.08:bh=-.06", "eq=brightness=-.02:contrast=1.16:saturation=.82:gamma=.96"),
+        "silk", 3, .80,
+    ),
+    "neon_heist": Template(
+        "neon_heist", "Neon Heist", "The city already picked a side.",
+        .22, .54, .56, ("fadeblack", "hblur", "wipeleft", "fadewhite", "radial", "horzopen"),
+        ("colorbalance=bs=.18:rs=.08:gs=-.08:bh=.20:rh=.10:gh=-.10:bm=.10", "eq=brightness=-.02:contrast=1.28:saturation=1.18:gamma=.93"),
+        "flicker", 8, .60,
+    ),
+    "ivory_mafia": Template(
+        "ivory_mafia", "Ivory Mafia", "Old money doesn't raise its voice.",
+        .50, 1.12, .28, ("dissolve", "fadeblack", "smoothright", "fadegrays", "circleclose"),
+        ("colorbalance=rs=.04:gs=.03:bs=.02:rh=.08:gh=.06:bh=.02:rm=.04", "eq=brightness=.02:contrast=1.12:saturation=.70:gamma=1.02"),
+        "drift", 4, .78,
+    ),
+    "black_mass": Template(
+        "black_mass", "Black Mass", "Pray if you want. Pay if you must.",
+        .44, .98, .36, ("fadeblack", "circleopen", "dissolve", "radial", "smoothup"),
+        ("colorbalance=rs=.14:gs=.05:bs=-.06:rh=.20:gh=.08:bh=-.10", "eq=brightness=-.10:contrast=1.22:saturation=.74:gamma=.88"),
+        "kneel", 6, .95,
+    ),
+    "copper_bullet": Template(
+        "copper_bullet", "Copper Bullet", "Bronze. Fast. Final.",
+        .20, .50, .60, ("diagtl", "diagtr", "wipeleft", "fadeblack", "hblur", "wipetr"),
+        ("colorbalance=rs=.16:gs=.06:bs=-.14:rh=.18:gh=.08:bh=-.16:rm=.08", "eq=brightness=-.02:contrast=1.32:saturation=1.00:gamma=.92"),
+        "ricochet", 7, .66,
+    ),
+    "red_room": Template(
+        "red_room", "Red Room", "Nobody leaves the same.",
+        .36, .80, .40, ("dissolve", "fadeblack", "circleclose", "hblur", "smoothdown"),
+        ("colorbalance=rs=.14:gs=-.08:bs=.02:rh=.18:gh=-.10:bh=.04:rm=.16:bm=.06", "eq=brightness=-.05:contrast=1.20:saturation=.92:gamma=.94"),
+        "close", 5, .88,
+    ),
+    "casino_royale": Template(
+        "casino_royale", "Casino Royale", "The house always knows.",
+        .24, .60, .48, ("wipeleft", "wiperight", "fadeblack", "slideleft", "radial", "hblur"),
+        ("colorbalance=gs=.10:rs=.08:bs=-.10:gh=.12:rh=.10:bh=-.12", "eq=brightness=-.03:contrast=1.26:saturation=.95:gamma=.93"),
+        "deal", 5, .70,
+    ),
+    "platinum_hit": Template(
+        "platinum_hit", "Platinum Hit", "Clean. White. Lethal.",
+        .18, .46, .52, ("fadewhite", "fadegrays", "horzopen", "fadeblack", "distance", "hblur"),
+        ("colorbalance=bs=.08:rs=-.04:gs=-.02:bh=.06:rh=-.02", "eq=brightness=.03:contrast=1.34:saturation=.48:gamma=.90"),
+        "hit", 3, .58,
+    ),
 }
 
 
@@ -202,6 +250,46 @@ def effect_filter(cfg: Template, rng: random.Random, shot_index: int) -> str:
         chain[-1] = f"scale=iw*{zoom:.4f}:ih*{zoom:.4f}"
         x = rng.uniform(.28, .72)
         y = rng.uniform(.32, .62)
+    elif cfg.motion == "silk":
+        zoom = rng.uniform(1.28, 1.40) if shot_index % 7 == 0 else rng.uniform(1.10, 1.20)
+        chain[-1] = f"scale=iw*{zoom:.4f}:ih*{zoom:.4f}"
+        x = rng.uniform(.32, .68)
+        y = rng.uniform(.28, .55)
+    elif cfg.motion == "flicker":
+        zoom = rng.uniform(1.12, 1.28)
+        chain[-1] = f"scale=iw*{zoom:.4f}:ih*{zoom:.4f}"
+        x = rng.uniform(.16, .84)
+        y = rng.uniform(.18, .62)
+    elif cfg.motion == "drift":
+        zoom = rng.uniform(1.08, 1.16)
+        chain[-1] = f"scale=iw*{zoom:.4f}:ih*{zoom:.4f}"
+        x = .22 if shot_index % 2 == 0 else .78
+        y = rng.uniform(.30, .58)
+    elif cfg.motion == "kneel":
+        zoom = rng.uniform(1.14, 1.26)
+        chain[-1] = f"scale=iw*{zoom:.4f}:ih*{zoom:.4f}"
+        x = rng.uniform(.30, .70)
+        y = rng.uniform(.62, .92)
+    elif cfg.motion == "ricochet":
+        zoom = rng.uniform(1.22, 1.40)
+        chain[-1] = f"scale=iw*{zoom:.4f}:ih*{zoom:.4f}"
+        x = rng.choice((.08, .22, .78, .92))
+        y = rng.choice((.12, .28, .70, .88))
+    elif cfg.motion == "close":
+        zoom = rng.uniform(1.36, 1.56)
+        chain[-1] = f"scale=iw*{zoom:.4f}:ih*{zoom:.4f}"
+        x = rng.uniform(.38, .62)
+        y = rng.uniform(.28, .48)
+    elif cfg.motion == "deal":
+        zoom = rng.uniform(1.14, 1.26)
+        chain[-1] = f"scale=iw*{zoom:.4f}:ih*{zoom:.4f}"
+        x = .12 if shot_index % 2 else .88
+        y = rng.uniform(.24, .60)
+    elif cfg.motion == "hit":
+        zoom = rng.uniform(1.20, 1.36)
+        chain[-1] = f"scale=iw*{zoom:.4f}:ih*{zoom:.4f}"
+        x = rng.uniform(.28, .72)
+        y = rng.uniform(.22, .52)
     chain += [
         f"crop={core.WIDTH}:{core.HEIGHT}:(iw-{core.WIDTH})*{x:.3f}:(ih-{core.HEIGHT})*{y:.3f}",
         "setsar=1", f"fps={core.FPS}", *cfg.grade,
@@ -234,6 +322,29 @@ def effect_filter(cfg: Template, rng: random.Random, shot_index: int) -> str:
         chain.append("gblur=sigma=1.35")
         if shot_index % 5 == 0:
             chain.append("eq=brightness=-.10:saturation=.5")
+    if cfg.motion == "silk" and shot_index % 7 == 0:
+        chain.append("eq=brightness=.08:enable='lt(n,2)'")
+    if cfg.motion == "flicker":
+        if shot_index % 2 == 0:
+            chain.append("eq=brightness=.14:enable='lt(n,1)'")
+        if shot_index % 5 == 0:
+            chain.append("chromashift=cbh=4:crh=-5")
+    if cfg.motion == "drift" and shot_index % 6 == 0:
+        chain.append("gblur=sigma=0.6")
+    if cfg.motion == "kneel" and shot_index % 5 == 0:
+        chain.append("eq=brightness=-.10:gamma=.92")
+    if cfg.motion == "ricochet" and shot_index % 4 == 0:
+        chain.append("eq=brightness=.11:enable='lt(n,2)'")
+        chain.append("chromashift=cbh=3:crh=-2")
+    if cfg.motion == "close" and shot_index % 4 == 0:
+        chain.append("eq=saturation=.85:brightness=-.04")
+    if cfg.motion == "deal" and shot_index % 3 == 0:
+        chain.append("eq=brightness=.09:enable='lt(n,1)'")
+    if cfg.motion == "hit":
+        if shot_index % 4 == 0:
+            chain.append("eq=brightness=.18:saturation=.7:enable='lt(n,2)'")
+        if shot_index % 6 == 0:
+            chain.append("hue=s=.45")
     chain += [
         f"vignette={cfg.vignette:.2f}*PI/4",
         "unsharp=5:5:.45:5:5:0",
